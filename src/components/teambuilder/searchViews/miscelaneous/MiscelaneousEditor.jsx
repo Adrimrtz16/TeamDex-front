@@ -56,7 +56,7 @@ const MiscellaneousEditor = ({setTeam, actualPokemon, shiny, setShiny, level, se
                                 </div>
                                 <div className="flex justify-center items-center">
                                     <p className="mb-0 mr-3"><strong>Tera Type: </strong></p>
-                                    <select className={`border-1 pl-1`} value={teraType} onChange={e => teraTypeChange(e.target.value)}>
+                                    <select className={`border-1 pl-1 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} value={teraType} onChange={e => teraTypeChange(e.target.value)}>
                                         {types.map((type, index) => (
                                             <option key={index} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
                                         ))}
