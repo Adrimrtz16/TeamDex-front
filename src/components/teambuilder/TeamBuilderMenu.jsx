@@ -82,7 +82,7 @@ const TeamBuilderMenu = () => {
                                         id={pokemonSeleccionadoId}
                                         nameFilter={nameFilter} 
                                         pokemons={pokemons} 
-                                        loading={loading} 
+                                        buscando={buscando} 
                                         pokemonSeleccionado={pokemonSeleccionado}
                                         setPokemonSeleccionado={setPokemonSeleccionado} 
                                         setPokemonSeleccionadoId={setPokemonSeleccionadoId}

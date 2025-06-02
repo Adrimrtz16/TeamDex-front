@@ -11,7 +11,7 @@ import MoveList from "./searchViews/moves/MoveList";
 import StatsEditor from "./searchViews/stats/StatsEditor";
 import MiscellaneousEditor from "./searchViews/miscelaneous/MiscelaneousEditor";
 
-const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , loading , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam}) => {
+const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam}) => {
 
     const { isDarkMode } = useTheme();
     const { pokemonData: pokemon } = usePokemonData(id);
@@ -99,7 +99,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , loading , pok
                 return <PokemonList 
                             nameFilter={nameFilter} 
                             pokemons={pokemons} 
-                            loading={loading} 
+                            buscando={buscando} 
                             pokemonSeleccionado={pokemonSeleccionado}
                             setPokemonSeleccionado={setPokemonSeleccionado} 
                             setPokemonSeleccionadoId={setPokemonSeleccionadoId}
