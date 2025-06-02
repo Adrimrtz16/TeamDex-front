@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Pokemon from "./Pokemon";
+import Loader from "../../../loader/Loader";
 
-const PokemonList = ({nameFilter , pokemons , loading , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, setTeam, actualPokemon, setSearch, setStats}) => {
+const PokemonList = ({nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, setTeam, actualPokemon, setSearch, setStats}) => {
 
     const [filteredPokemons, setFilteredPokemons] = useState([]);
 
@@ -41,7 +42,7 @@ const PokemonList = ({nameFilter , pokemons , loading , pokemonSeleccionado, set
 
     return (
         <div className="row">
-            { loading ? <p>Buscando...</p> : 
+            { buscando ? <Loader/> : 
                 filteredPokemons.map((pokemon) => (
                     <Pokemon
                         key={pokemon.id}

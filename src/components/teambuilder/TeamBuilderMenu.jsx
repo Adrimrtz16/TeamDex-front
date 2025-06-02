@@ -27,7 +27,7 @@ const TeamBuilderMenu = () => {
     }
     const [actualPokemon, setActualPokemon] = useState(0);
 
-    const { pokemons, loading } = usePokemons();
+    const { pokemons, buscando } = usePokemons();
     const [nameFilter, setNameFilter] = useState("");
     const { isDarkMode } = useTheme();
     const [pokemonSeleccionado, setPokemonSeleccionado] = useState(false);
@@ -69,7 +69,7 @@ const TeamBuilderMenu = () => {
                                             <PokemonList 
                                                 nameFilter={nameFilter} 
                                                 pokemons={pokemons} 
-                                                loading={loading} 
+                                                buscando={buscando} 
                                                 pokemonSeleccionado={pokemonSeleccionado}
                                                 setPokemonSeleccionado={setPokemonSeleccionado} 
                                                 setPokemonSeleccionadoId={setPokemonSeleccionadoId}
