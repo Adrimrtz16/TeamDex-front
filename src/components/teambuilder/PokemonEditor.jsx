@@ -16,7 +16,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
     const { isDarkMode } = useTheme();
     const { pokemonData: pokemon } = usePokemonData(id);
 
-    const { items = [], buscando } = useItems(); 
+    const { items = [], buscandoItems } = useItems(); 
     const { abilities = [], buscandoAbilities } = useAbilities(id);
     const { moves = [], buscandoMoves } = useMoves(id);
 
@@ -111,7 +111,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
                 return <ItemList
                             setTeam={setTeam}
                             actualPokemon={actualPokemon}
-                            buscando={buscando}
+                            buscandoItems={buscandoItems}
                             filteredItems={filteredItems}
                             setSearch={setSearch}
                         />

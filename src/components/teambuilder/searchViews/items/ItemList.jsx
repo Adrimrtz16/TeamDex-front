@@ -1,11 +1,11 @@
 import Item from "./Item";
 
-const ItemList = ({setTeam, actualPokemon, filteredItems, buscando, setSearch}) => {
+const ItemList = ({setTeam, actualPokemon, filteredItems, buscandoItems, setSearch}) => {
 
     return (
         <>
             <div className="row">
-                {buscando ? (
+                {buscandoItems ? (
                     <p>Buscando...</p>
                 ) : (
                     filteredItems.map((item, index) => (
