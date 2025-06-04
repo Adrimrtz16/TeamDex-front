@@ -6,6 +6,8 @@ import TeamBuilder from './pages/TeamBuilder'
 import { ThemeProvider , useTheme  } from './contexts/ThemeContext'
 import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
+import Register from './pages/Register'
+import User from './pages/User'
 
 function AppContent() {
   
@@ -19,6 +21,8 @@ function AppContent() {
         <Route path='/teams' element={<Teams/>}/>
         <Route path='/teams/teambuilder' element={<TeamBuilder/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/user' element={<User />}/>
       </Routes>
     </div>
   );
