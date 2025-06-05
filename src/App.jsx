@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import User from './pages/User'
+import Users from './pages/UserList'
 
 function AppContent() {
   
@@ -22,7 +23,8 @@ function AppContent() {
         <Route path='/teams/teambuilder' element={<TeamBuilder/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
-        <Route path='/user' element={<User />}/>
+        <Route path='/users' element={<Users />}/>
+        <Route path='/users/user/:id' element={<User />}/>
       </Routes>
     </div>
   );

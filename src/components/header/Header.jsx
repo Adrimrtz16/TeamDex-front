@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import dark from '../../assets/dark.png';
 import light from '../../assets/light.png';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Link } from 'react-router-dom';
+import { getMe } from '../../services/auth/getMe';
 
 const Header = () => {
 
@@ -12,6 +14,17 @@ const Header = () => {
     const linkClass = `!no-underline ${isDarkMode ? 'text-white' : '!text-slate-800'}`;
     const loginButtonClass = `text-4xl font-bold mx-2 px-8 py-2 text-center ${isDarkMode ? 'text-white' : ''} py-4`;
     const registerButtonClass = "mx-2 px-8 py-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300";
+
+    const token = localStorage.getItem('token');
+    const [me, setMe] = useState(null);
+
+    useEffect(() => {
+        if (token) {
+            getMe().then(setMe).catch(console.error);        
+        } 
+        console.log(me) 
+    }
+    , [token]);
 
     return (
         <div className={headerClass}>
@@ -26,12 +39,33 @@ const Header = () => {
                         <button onClick={toggleTheme}>
                             <img className='w-[30px]' src={isDarkMode ? light : dark} alt="Toggle Theme" />
                         </button>
-                        <Link to='/login' className={linkClass}>
-                            <button className={loginButtonClass}>Inciar sesion</button>
-                        </Link>
-                        <Link to='/register' className={linkClass}>
-                            <button className={registerButtonClass}>Registrarse</button>
-                        </Link>
+
+                        {!token ? 
+                            <>
+                                <Link to='/login' className={linkClass}>
+                                    <button className={loginButtonClass}>Inciar sesion</button>
+                                </Link>
+                                <Link to='/register' className={linkClass}>
+                                    <button className={registerButtonClass}>Registrarse</button>
+                                </Link>
+                            </>
+                        :
+                            
+                            <div className='flex items-center'>
+                                {me ? (
+                                    <>
+                                        <p className='mb-0 mx-4 font-semibold'>{me.username}</p>
+                                        <img
+                                            src={me.profilePictureUrl}
+                                            alt={me.username}
+                                            className="w-10 h-10 ml-2"
+                                        />
+                                    </>
+                                ) : (
+                                    <span className="ml-2">Cargando...</span>
+                                )}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

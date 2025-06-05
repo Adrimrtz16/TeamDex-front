@@ -27,7 +27,7 @@ const LoginForm = () => {
             setSuccess(true);
             setError('');
             console.log('Login successful:', result.token);
-            // window.location.href = '/teambuilder';
+            window.location.href = '/';
         } else {
             setError(result.message);
             setSuccess(false);
@@ -80,14 +80,6 @@ const LoginForm = () => {
                         </button>
                     </form>
                 </div>
-            </div>
-            <div className="col-12">
-                <input
-                className='border-1'
-                    type="text"
-                    onChange={e => setUser(Number(e.target.value))}
-                />
-                <button className='border-1' onClick={() => usuarioget(user)}>ver usuario</button>               
             </div>
         </div>
     );

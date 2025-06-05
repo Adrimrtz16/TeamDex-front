@@ -77,10 +77,10 @@ const HomeBody = () => {
                         <img className='p-5' src={aggron} alt="" />
                         <div className='mx-20 pb-10'>
                             <h1>Explora</h1>
-                            <p className='my-3'>Sumérgete en un mundo de posibilidades. Busca y filtra equipos según tus preferencias, analiza datos en tiempo real y encuentra combinaciones únicas para optimizar tu juego. ¡Investiga, aprende y lleva tu estrategia al siguiente nivel!</p>
-                            <button className={buttonClass}>
-                                Explora usuarios
-                            </button>
+                            <p className='my-3'>Descubre a otros entrenadores Pokémon de la comunidad. Explora perfiles, consulta sus equipos, comparte estrategias y encuentra inspiración para mejorar tu juego tanto en Singles como de VGC. ¡Conecta, aprende y forma parte de la comunidad TeamDex!</p>
+                            <Link className={linkClass} to='/users'>
+                                <button className={buttonClass}>Explora usuarios</button>
+                            </Link>
                         </div>
                     </div>
                 </div>
