@@ -6,6 +6,7 @@ const useAbilities = (id) => {
     const [buscandoAbilities, setBbuscandoAbilities] = useState(true);
     
     function obtenerAbilities() {
+        if (!id) return;
         setBbuscandoAbilities(true);
         getAbilities(id).then(data => {
             setAbilities(data); 

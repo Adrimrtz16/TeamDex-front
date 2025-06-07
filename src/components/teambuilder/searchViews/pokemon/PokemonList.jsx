@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Pokemon from "./Pokemon";
 import Loader from "../../../loader/Loader";
 
-const PokemonList = ({nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, setTeam, actualPokemon, setSearch, setStats}) => {
+const PokemonList = ({nameFilter , pokemons , buscando , setPokemonSeleccionadoId, setTeam, actualPokemon, setSearch, setNameFilter}) => {
 
     const [filteredPokemons, setFilteredPokemons] = useState([]);
 
@@ -42,7 +42,10 @@ const PokemonList = ({nameFilter , pokemons , buscando , pokemonSeleccionado, se
 
     return (
         <div className="row">
-            { buscando ? <Loader/> : 
+            { buscando ? 
+                <div className="col-12">
+                    <Loader/>
+                </div> : 
                 filteredPokemons.map((pokemon) => (
                     <Pokemon
                         key={pokemon.id}
@@ -52,12 +55,11 @@ const PokemonList = ({nameFilter , pokemons , buscando , pokemonSeleccionado, se
                         tipos={pokemon.tipos}
                         stats={pokemon.stats}
                         abilities={pokemon.abilities}
-                        pokemonSeleccionado={pokemonSeleccionado}
-                        setPokemonSeleccionado={setPokemonSeleccionado}
                         setPokemonSeleccionadoId={setPokemonSeleccionadoId}
                         setTeam={setTeam}
                         actualPokemon={actualPokemon}
                         setSearch={setSearch}
+                        setNameFilter={setNameFilter}
                     />
                 ))
             }

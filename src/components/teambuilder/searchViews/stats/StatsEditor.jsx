@@ -2,7 +2,7 @@ import { use, useEffect, useState } from "react";
 import { useTheme } from "../../../../contexts/ThemeContext";
 import pokemonNatures from "../../../../mocks/mockNatures.js"; // Asegúrate de que la ruta sea correcta
 
-const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, nature, setNature, natureUp, setNatureUp, natureDown, setNatureDown, team, natureNeutral, setNatureNeutral}) => {
+const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, nature, setNature, natureUp, setNatureUp, natureDown, setNatureDown, team, natureNeutral, setNatureNeutral, level}) => {
     
     const { isDarkMode } = useTheme();
 
@@ -87,9 +87,9 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
             }
             
             if( index === 0) { // HP stat calculation
-                return Math.floor((2 * baseStat + iv + (ev / 4)) * 100 / 100) + 100 + 10; 
+                return Math.floor((2 * baseStat + iv + (ev / 4)) * level / 100) + level + 10; 
             }
-            return Math.floor((((2 * baseStat + iv + (ev / 4)) * 100 / 100) + 5) * natureBoost);
+            return Math.floor((((2 * baseStat + iv + (ev / 4)) * level / 100) + 5) * natureBoost);
         });
 
         setFinalStats(newFinalStats);
@@ -179,7 +179,7 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
                                     <input key={index} type="range" min="0" max="252" value={ev} onChange={e => evsChange(index, e.target.value)}/>
                                 ))}
                             </div>
-                            <div className="col-1 flex flex-col items-start justify-end gap-2 pb-[3px] pb-4">
+                            <div className="col-1 flex flex-col items-start justify-end gap-2 pb-4">
                                 {evs.map((ev, index) => (
                                     <input className="border-1 pl-1" key={index} type="number" min="0" max="252" value={ev} onChange={e => evsChange(index, e.target.value)}/>
                                 ))}
@@ -246,7 +246,7 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
                                 </div>
                                 </>)}
                             
-                            <div className="col-1 flex flex-col items-start justify-end gap-2 pb-[3px] pb-4">
+                            <div className="col-1 flex flex-col items-start justify-end gap-2 pb-4">
                                 {ivs.map((iv, index) => (
                                     <input className="border-1 pl-1" key={index} type="number" min="0" max="252" value={iv} onChange={e => ivsChange(index, e.target.value)}/>
                                 ))}

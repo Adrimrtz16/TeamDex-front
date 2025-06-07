@@ -36,7 +36,7 @@ const Move = ({ name, description, sprite, typeId, accuracy, power, pp, priority
 
     return (
         <div className="col-4">
-            <div onClick={selectMove} className={`cursor-pointer my-2 rounded-lg shadow-md border-2 hover:shadow-lg transition p-2 text-center min-h-[118px] ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
+            <div onClick={selectMove} className={`cursor-pointer my-2 rounded-lg shadow-md border-2 hover:shadow-lg transition p-2 text-center min-h-[180px] ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
                 <div className="row">
                     <div className="col-12 flex justify-between items-center">
                         <img src={sprite} alt="" />

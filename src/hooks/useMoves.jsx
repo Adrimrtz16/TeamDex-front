@@ -6,6 +6,7 @@ const useMoves = (id) => {
     const [buscandoMoves, setBbuscandoMoves] = useState(true);
     
     function obtenerMoves() {
+        if (!id) return;
         setBbuscandoMoves(true);
         getMoves(id).then(data => {
             setMoves(data); 

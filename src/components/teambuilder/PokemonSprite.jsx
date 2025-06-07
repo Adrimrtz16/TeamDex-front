@@ -2,10 +2,9 @@ import { useTheme } from "../../contexts/ThemeContext";
 import addDark from '../../assets/addDark.png';
 import addLight from '../../assets/addLight.png';
 
-const PokemonSprite = ({sprite, id , setActualPokemon, setSearch, setExportText, setExportTextTeam}) => {
+const PokemonSprite = ({sprite, id , setActualPokemon, setSearch, setExportText, setExportTextTeam, addImg}) => {
 
     const { isDarkMode } = useTheme();
-    const addImg = isDarkMode ? addDark : addLight;
     const pokemonImg = sprite === '' ? addImg : sprite;
 
     function changeSearch() {

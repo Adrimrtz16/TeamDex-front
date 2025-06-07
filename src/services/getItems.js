@@ -4,6 +4,7 @@ const itemsGen9 = [
   'choice-band',
   'choice-scarf',
   'choice-specs',
+  'eviolite',
   'expert-belt',
   'focus-sash',
   'heavy-duty-boots',

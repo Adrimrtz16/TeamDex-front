@@ -10,8 +10,10 @@ import useMoves from "../../hooks/useMoves";
 import MoveList from "./searchViews/moves/MoveList";
 import StatsEditor from "./searchViews/stats/StatsEditor";
 import MiscellaneousEditor from "./searchViews/miscelaneous/MiscelaneousEditor";
+import useMe from "../../hooks/useMe";
+import { getCreateTeam } from "../../services/getCreateTeam";
 
-const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam}) => {
+const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam, importTeam, setImportTeam}) => {
 
     const { isDarkMode } = useTheme();
     const { pokemonData: pokemon } = usePokemonData(id);
@@ -106,6 +108,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
                             setTeam={setTeam}
                             actualPokemon={actualPokemon}
                             setSearch={setSearch}
+                            setNameFilter={setNameFilter}
                         />
             case 2:
                 return <ItemList
@@ -153,6 +156,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
                             team={team}
                             setNatureNeutral={setNatureNeutral}
                             natureNeutral={natureNeutral}
+                            level={level}
                         />
             case 6:
                 return <MiscellaneousEditor
@@ -219,6 +223,55 @@ ${formattedIVs ? `IVs: ${formattedIVs}\n` : ''}${capitalizedMoves}`;
             .join(' ');
     }
 
+    // Functions to get and save the team
+    const [importText, setImportText] = useState("");
+    const [teamName, setTeamName] = useState("");
+
+    function saveTeam(team, maxSets = 6) {
+        // 1) Partimos por dobles saltos de línea (o salto+espacios+salto)
+        const rawSets = team
+            .split(/\r?\n\s*\r?\n/)   // separa por líneas en blanco
+            .map(s => s.trim())        // limpia espacios sobrantes al principio/final
+            .filter(s => s.length > 0);
+
+        // 2) Regex de validación multilineal (ya no necesita lidiar con espacios al final)
+        const pattern = new RegExp([
+            '^.+ @ .+ *',                   // Nombre @ objeto
+            '\\nAbility: .+ *',             // Ability
+            '(?:\\nLevel: \\d+ *)?',        // Level (opcional)
+            '(?:\\nShiny: Yes *)?',         // Shiny opcional
+            '(?:\\nTera Type: .+ *)?',      // Tera Type (opcional)
+            '(?:\\nEVs: .+ *)?',            // EVs opcional
+            '\\n[A-Za-z]+ Nature *',        // Nature
+            '(?:\\nIVs: .+ *)?',            // IVs opcional
+            '(?:\\n-.* *){1,4}',            // 1 a 4 movimientos            '$'
+        ].join(''), '');
+
+        // 3) Para cada uno de los primeros maxSets bloques:
+        const result = [];
+        for (let i = 0; i < maxSets; i++) {
+            const block = rawSets[i] ?? '';
+            if (!block) {
+            result.push('');
+            continue;
+            }
+
+            // 3a) normalizamos quitando espacios finales de cada línea
+            const normalized = block
+            .split('\n')
+            .map(line => line.trimEnd())
+            .join('\n');
+            
+            // 3b) validamos
+            const cleaned = pattern.test(normalized) ? block.replace(/\n/g, '') : '';
+
+            result.push(cleaned);
+        }
+
+        const token = localStorage.getItem("token");
+        getCreateTeam(teamName, result[0], result[1], result[2], result[3], result[4], result[5], token)
+    //    window.location.href = '/teams';
+    }
 
     if (!pokemon) return <div>Cargando...</div>; 
 
@@ -262,18 +315,16 @@ ${formattedIVs ? `IVs: ${formattedIVs}\n` : ''}${capitalizedMoves}`;
                     <div id="evs" className={`cursor-pointer h-100 w-100 pl-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} onClick={() => setSearch(5)}>
                         <div className="flex flex-col h-full text-sm pt-[12px] pl-[9px]"> 
                             {pokemon && pokemon.stats && stats.map((stat, i) => {
-                                // Normaliza el stat entre 0 y 255 (ajusta el máximo según tus stats)
                                 const min = 0;
                                 const max = 160;
                                 const percent = Math.max(0, Math.min(1, (stat - min) / (max - min)));
-                                // Interpolación de color de rojo (#ef4444) a verde (#22c55e)
                                 const r = Math.round(239 + (34 - 239) * percent);
                                 const g = Math.round(68 + (197 - 68) * percent);
                                 const b = Math.round(68 + (94 - 68) * percent);
                                 const barColor = `rgb(${r},${g},${b})`;
 
                                 return (
-                                    <div key={i} className="flex items-center mb-[10px] mb-0">
+                                    <div key={i} className="flex items-center mb-0">
                                         <span className="w-20 text-left mr-2">
                                             {["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"][i]}:
                                         </span>
@@ -295,37 +346,59 @@ ${formattedIVs ? `IVs: ${formattedIVs}\n` : ''}${capitalizedMoves}`;
                 </div>
             </div>
             <div className="row">
-                <div className="col-12">
-                    {busquedaEditor()}
+                <div className="col-12 pt-1">
+                    <button className="px-8 py-2 my-2 !mr-4 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setImportTeam(!importTeam); setSearch(0);}}>
+                        Import Team
+                    </button>
+                    {!importTeam ? 
+                        <>
+                            <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportText(!exportText)} }>
+                                Export Pokémon
+                            </button>
+                            <button className="px-8 py-2 mx-3 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportTextTeam(!exportTextTeam)} }>
+                                Export Team
+                            </button>
+                            <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => saveTeam()}>
+                                Save Team
+                            </button>
+                            <input type="text" id="teamName" className={`w-auto p-2 rounded-lg border-2 !mx-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="teamName"/>
+
+                            {exportText && (
+                                <textarea
+                                    className={`w-full mt-2 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}
+                                    value={convertToTextFormat(team[actualPokemon])}
+                                    readOnly
+                                    rows={12}
+                                />
+                            )} 
+                            {exportTextTeam && (
+                                <textarea
+                                    className={`w-full mt-2 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}
+                                    value={team.map(pokemon => convertToTextFormat(pokemon)).join('\n\n')}
+                                    readOnly
+                                    rows={12}
+                                />
+                            )}
+                            </> :
+                            <>
+                                <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {saveTeam(importText)}} >
+                                    Save
+                                </button>
+                                <input type="text" id="teamName" className={`w-auto p-2 rounded-lg border-2 !mx-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="teamName" value={teamName} onChange={e => {setTeamName(e.target.value)}}/>
+
+                                <textarea
+                                        className={`w-full mt-2 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}
+                                        rows={12}
+                                        value={importText}
+                                        onChange={e => {setImportText(e.target.value)}}
+                                />
+                            </>
+                    }
                 </div>
             </div>
             <div className="row">
                 <div className="col-12">
-                    <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportText(true); setExportTextTeam(false)} }>
-                        Export Pokémon
-                    </button>
-                    <button className="px-8 py-2 mx-3 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportText(false); setExportTextTeam(true)} }>
-                        Export Team
-                    </button>
-                    <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => saveTeam()}>
-                        Save Team
-                    </button>
-                    {exportText && (
-                        <textarea
-                            className={`w-full mt-2 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}
-                            value={convertToTextFormat(team[actualPokemon])}
-                            readOnly
-                            rows={12}
-                        />
-                    )} 
-                    {exportTextTeam && (
-                        <textarea
-                            className={`w-full mt-2 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}
-                            value={team.map(pokemon => convertToTextFormat(pokemon)).join('\n\n')}
-                            readOnly
-                            rows={12}
-                        />
-                    )}
+                    {busquedaEditor()}
                 </div>
             </div>
         </div>

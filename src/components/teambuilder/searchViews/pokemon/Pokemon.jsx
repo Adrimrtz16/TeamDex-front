@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../../../../contexts/ThemeContext';
 
-const Pokemon = ({ name , id , tipos, stats, abilities, pokemonSeleccionado, setPokemonSeleccionado, setPokemonSeleccionadoId, setTeam, actualPokemon, setSearch}) => {
+const Pokemon = ({ name , id , tipos, stats, abilities, setPokemonSeleccionadoId, setTeam, actualPokemon, setSearch, setNameFilter}) => {
     
     const { isDarkMode } = useTheme();
     const src = `https://cdn.jsdelivr.net/gh/PokeAPI/sprites@master/sprites/pokemon/${id}.png`;
@@ -27,10 +27,7 @@ const Pokemon = ({ name , id , tipos, stats, abilities, pokemonSeleccionado, set
     }
     
     function seleccionarPokemon() {
-        if(pokemonSeleccionado) {
-            setSearch(2);
-        }
-        setPokemonSeleccionado(true);
+        setSearch(2);
         setPokemonSeleccionadoId(id);
         setTeam(prevTeam => {
             const newTeam = [...prevTeam]; 
@@ -43,6 +40,7 @@ const Pokemon = ({ name , id , tipos, stats, abilities, pokemonSeleccionado, set
             return newTeam;
         });
         window.scrollTo({ top: 0, behavior: "smooth" });
+        setNameFilter("");
     }
     
     return (

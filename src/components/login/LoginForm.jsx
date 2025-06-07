@@ -26,18 +26,11 @@ const LoginForm = () => {
         if (result.success) {
             setSuccess(true);
             setError('');
-            console.log('Login successful:', result.token);
             window.location.href = '/';
         } else {
             setError(result.message);
             setSuccess(false);
-            console.log('Login failed:', result.message);
         }
-    }
-
-    const [user, setUser] = useState(4);
-    function usuarioget(userP) {
-        getUser(userP);
     }
 
     return (

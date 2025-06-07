@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import PokemonSprite from "./PokemonSprite";
-import PokemonList from "./searchViews/pokemon/PokemonList";
-import NameFilter from "./filters/NameFilter";
 import PokemonEditor from "./PokemonEditor";
 import usePokemons from "../../hooks/usePokemons";
+import addDark from '../../assets/addDark.png';
+import addLight from '../../assets/addLight.png';
 
 const TeamBuilderMenu = () => {
+
+    const { isDarkMode } = useTheme();
+    const addImg = isDarkMode ? addDark : addLight;
 
     const pokemonTeamplate = {
         name: '',
         level: 100,
         shiny: false,
-        sprite: '',
+        sprite: `${addImg}`,
         item: '',
         teraType: 'normal',
         abilitie: '',
@@ -25,21 +28,21 @@ const TeamBuilderMenu = () => {
         evs: [0, 0, 0, 0, 0, 0],
         ivs: [31, 31, 31, 31, 31, 31]
     }
+
     const [actualPokemon, setActualPokemon] = useState(0);
 
     const { pokemons, buscando } = usePokemons();
     const [nameFilter, setNameFilter] = useState("");
-    const { isDarkMode } = useTheme();
-    const [pokemonSeleccionado, setPokemonSeleccionado] = useState(false);
     const [pokemonSeleccionadoId, setPokemonSeleccionadoId] = useState(null);
 
     const [team, setTeam] = useState(
         Array.from({ length: 6 }, () => ({ ...pokemonTeamplate }))
     );
 
-    const [search, setSearch] = useState(0);
+    const [search, setSearch] = useState(1);
     const [exportText, setExportText] = useState(false);
     const [exportTextTeam, setExportTextTeam] = useState(false);
+    const [importTeam, setImportTeam] = useState(false);
 
     return (
         <div className='container'>
@@ -58,33 +61,18 @@ const TeamBuilderMenu = () => {
                                         setSearch={setSearch}
                                         setExportText={setExportText}
                                         setExportTextTeam={setExportTextTeam}
+                                        addImg={addImg}
                                     />
                                 ))}
                             </div>
                             <div className="col-10">
                                 <div className='mr-10'>
-                                    {!pokemonSeleccionado ? (
-                                        <>
-                                            <NameFilter setNameFilter={setNameFilter} />
-                                            <PokemonList 
-                                                nameFilter={nameFilter} 
-                                                pokemons={pokemons} 
-                                                buscando={buscando} 
-                                                pokemonSeleccionado={pokemonSeleccionado}
-                                                setPokemonSeleccionado={setPokemonSeleccionado} 
-                                                setPokemonSeleccionadoId={setPokemonSeleccionadoId}
-                                                setTeam={setTeam}
-                                                actualPokemon={actualPokemon}
-                                            />
-                                        </>)
-                                    : <PokemonEditor 
+                                    <PokemonEditor 
                                         setNameFilter={setNameFilter}
                                         id={pokemonSeleccionadoId}
                                         nameFilter={nameFilter} 
                                         pokemons={pokemons} 
                                         buscando={buscando} 
-                                        pokemonSeleccionado={pokemonSeleccionado}
-                                        setPokemonSeleccionado={setPokemonSeleccionado} 
                                         setPokemonSeleccionadoId={setPokemonSeleccionadoId}
                                         setTeam={setTeam}
                                         team={team}
@@ -94,8 +82,11 @@ const TeamBuilderMenu = () => {
                                         exportText={exportText}
                                         setExportText={setExportText}
                                         exportTextTeam={exportTextTeam}
-                                        setExportTextTeam={setExportTextTeam}
-                                    /> }
+                                        setExportTextTeam={setExportTextTeam} 
+                                        importTeam={importTeam}
+                                        setImportTeam={setImportTeam}
+                                        addImg={addImg}
+                                    />
                                 </div>
                             </div>
                         </div>

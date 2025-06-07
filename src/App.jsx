@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import User from './pages/User'
 import Users from './pages/UserList'
+import Me from './components/login/Me'
 
 function AppContent() {
   
@@ -25,6 +26,7 @@ function AppContent() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/users' element={<Users />}/>
         <Route path='/users/user/:id' element={<User />}/>
+        <Route path='/me' element={<Me />} />
       </Routes>
     </div>
   );
