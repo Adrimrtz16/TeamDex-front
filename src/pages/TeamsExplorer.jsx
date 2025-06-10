@@ -4,7 +4,7 @@ const TeamsExplorer = () => {
     
     return (
         <>
-            <TeamsPrinter/>
+            <TeamsPrinter />
         </>
     );
 }
