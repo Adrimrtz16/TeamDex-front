@@ -6,6 +6,8 @@ const useUserWithTeams = (id) => {
     const [buscandoUser, setBuscandoUser] = useState(true);
     
     function obtenerUser() {
+        if (!id) return;
+        
         setBuscandoUser(true);
         
         getUserWithTeams(id).then(data => {

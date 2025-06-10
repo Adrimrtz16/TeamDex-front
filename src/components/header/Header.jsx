@@ -71,11 +71,11 @@ const Header = () => {
                                         {menuOpen && (
                                             <div className="absolute right-8 top-19 shadow-lg z-50 min-w-[150px]">
                                                 <Link className={linkClass} to={`/me`}>
-                                                    <p className={`px-4 mb-0 pt-2 cursor-pointer ${isDarkMode ? 'bg-slate-900 hover:bg-slate-950 text-white' : 'bg-white hover:bg-gray-300 hover:underline'}`}>
+                                                    <p className={`px-4 mb-0 pt-2 cursor-pointer ${isDarkMode ? 'bg-slate-900 hover:underline text-white' : 'bg-white hover:bg-gray-300 hover:underline'}`}>
                                                         Mi perfil
                                                     </p>
                                                 </Link>
-                                                    <p className={`px-4 mb-0 py-2 cursor-pointer ${isDarkMode ? 'bg-slate-900 hover:bg-slate-950 text-white' : 'bg-white hover:bg-gray-300 hover:underline'}`} onClick={() => {
+                                                    <p className={`px-4 mb-0 py-2 cursor-pointer ${isDarkMode ? 'bg-slate-900 hover:underline text-white' : 'bg-white hover:bg-gray-300 hover:underline'}`} onClick={() => {
                                                         localStorage.removeItem('token');
                                                         window.location.reload();
                                                     }}>

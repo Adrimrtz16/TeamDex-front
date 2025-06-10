@@ -20,15 +20,26 @@ const Pokemon = ({ name , id , tipos, stats, abilities, setPokemonSeleccionadoId
         else if(stat <= 120) statColors[index] = 'text-green-500';
         else if(stat > 120) statColors[index] = 'text-green-700';
     });
-    
-    if (name.includes('-') && name !== 'chi-yu' && name !== 'ting-lu' && name !== 'chien-pao' && name !== 'wo-chien' && name !== 'mr-mime' && name !== 'mr-rime' && name !== 'mine-jr' && name !== 'ho-oh') {
+
+    let nameFormated;
+    if (
+        name.includes('-') &&
+        name !== 'chi-yu' && name !== 'ting-lu' && name !== 'chien-pao' && name !== 'wo-chien' &&
+        name !== 'mr-mime' && name !== 'mr-rime' && name !== 'mine-jr' && name !== 'ho-oh' &&
+        name !== 'flutter-mane' && name !== 'scream-tail' && name !== 'slither-wing' && name !== 'roaring-moon' && name !== 'gouging-fire' &&
+        name !== 'great-tusk' && name !== 'brute-bonnet' && name !== 'walking-wake' && name !== 'sandy-shocks' && name !== 'raging-bolt' &&
+        name !== 'iron-valiant' && name !== 'iron-thorns' && name !== 'iron-moth' && name !== 'iron-hands' && name !== 'iron-boulder' &&
+        name !== 'iron-bundle' && name !== 'iron-leaves' && name !== 'iron-jugulis' && name !== 'iron-treads' && name !== 'iron-crown'
+    ) {
         const parts = name.split('-');
-        name = parts[0];
+        nameFormated = parts[0];
+    } else {
+        nameFormated = name;
     }
     
     function seleccionarPokemon() {
         setSearch(2);
-        setPokemonSeleccionadoId(id);
+        setPokemonSeleccionadoId(name);
         setTeam(prevTeam => {
             const newTeam = [...prevTeam]; 
             newTeam[actualPokemon] = { ...newTeam[actualPokemon], 
@@ -64,7 +75,7 @@ const Pokemon = ({ name , id , tipos, stats, abilities, setPokemonSeleccionadoId
                                 alt={name}
                                 className="sprite"
                             />
-                            <p className="mb-2">{name}</p>
+                            <p className="mb-2">{nameFormated}</p>
 
                             <h6 className="mb-1">abilities</h6>
                             {abilities.map((ability,index) => 

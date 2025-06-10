@@ -1,27 +1,26 @@
-import { Link, useParams } from "react-router-dom";
-import { useTheme } from "../../contexts/ThemeContext";
-import useUserWithTeams from "../../hooks/useUserWithTeams";
-import Loader from "../loader/Loader";
-import { useBuildingTeam } from "../../hooks/useBuildingTeam";
-import usePokemonSprites from "../../hooks/usePokemonSprites";
 import { useEffect, useState } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
+import { useBuildingTeam } from "../../hooks/useBuildingTeam";
 import { getPokemonSprite } from "../../services/getPokemonSprite";
+import useTeams from "../../hooks/useTeams";
+import Loader from "../loader/Loader";
+import { Link } from "react-router-dom";
 
-const UserSheet = () => {
+
+const TeamsPrinter = () => {
 
     const { isDarkMode } = useTheme();
-    const { id } = useParams();
-    const {user, buscandoUser} = useUserWithTeams(id);
-    const [teams, setTeams] = useState([]);
+    const { teams, buscandoTeams} = useTeams();
+    const [teamsFormated, setTeamsFormated] = useState([]);
     
     useEffect(() => {
         const fetchSprites = async () => {
-            if (!user || !user.teams) {
-                setTeams([]);
+            if (!teams || teams.length === 0) {
+                setTeamsFormated([]);
                 return;
             }
 
-            const allPokemonsArrays = user.teams.map(team => [
+            const allPokemonsArrays = teams.map(team => [
                 team.name, [     
                     team.pokemon1,
                     team.pokemon2,
@@ -43,47 +42,35 @@ const UserSheet = () => {
                 })
             );
 
-            setTeams(teamsBuilt);
+            setTeamsFormated(teamsBuilt);
         };
 
         fetchSprites();
-    }, [user]);
+    }, [teams]);
+
 
     // Variables para clases reutilizables
     const cardClass = `p-10 mt-20 mb-10 shadow-md rounded-[20px] ${isDarkMode ? 'bg-slate-950 text-white' : 'bg-gray-100'}`;
-    const imgClass = `sprite w-100 rounded-lg border-3 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`;
-    const titleClass = "text-3xl font-bold mb-2";
-    const subtitleClass = "text-2xl font-semibold text-center mt-4";
-    const textClass = "text-lg mb-4";
 
     return (
         <div className="container">
             <div className="row">
                 <div className="col-12">
+                    <h1 className="text-center !mt-10 !mb-0">Equipos construidos por la comunidad</h1>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-12">
                     <div className={cardClass}>
-                        { buscandoUser ? <Loader /> :  
+                        { buscandoTeams ? <Loader /> :  
                             <>
-                                <div className="row">
-                                    <div className="col-3">
-                                        <img className={imgClass} src={user.profilePictureUrl} alt="" />
-                                    </div>
-                                    <div className="col-9">
-                                        <h1 className={titleClass}>{user.username} <span className="font-light">ID: {user.id}</span></h1>
-                                        <p className={textClass}>{user.bio}</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <h2 className={subtitleClass}>{user.username}'s Teams</h2>
-                                    </div>
-                                </div>
-                                {teams && teams.length > 0
-                                    ? teams
+                                {teamsFormated && teams.length > 0
+                                    ? teamsFormated
                                         .filter(team => team && team.pokemons && team.pokemons[0]?.name !== '')
                                         .map((team, index) => (
-                                            <div key={index} className="row mb-4">
+                                            <div key={index} className="row">
                                                 <div className="col-12">
-                                                    <div className={`rounded-lg p-4 border-3 shadow-sm ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
+                                                    <div className={`rounded-lg p-4 mb-4 border-3 shadow-sm ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
                                                         
                                                         <div className="row">
                                                             <div className="col-2 flex items-center justify-center">
@@ -115,7 +102,7 @@ const UserSheet = () => {
                                                 </div>
                                             </div>
                                         ))
-                                    : <p className="text-center">Este usuario no tiene equipos construidos.</p>
+                                    : <p className="text-center">La comunidad no ha construido equipos por el momento</p>
                                 }
                             </>
                         }
@@ -126,4 +113,4 @@ const UserSheet = () => {
     );
 }
 
-export default UserSheet;
+export default TeamsPrinter;

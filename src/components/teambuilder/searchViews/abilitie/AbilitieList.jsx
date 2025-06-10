@@ -8,11 +8,11 @@ const AbilityList = ({setTeam, actualPokemon, filteredAbilities, buscando, setSe
                 {buscando ? (
                     <p>Buscando...</p>
                 ) : (
-                    filteredAbilities.map((item, index) => (
+                    filteredAbilities.map((abilitie, index) => (
                         <Ability
                             key={index}
-                            name={item.name}
-                            description={item.description}
+                            name={abilitie.name}
+                            description={abilitie.description}
                             setTeam={setTeam}
                             actualPokemon={actualPokemon}
                             setSearch={setSearch}

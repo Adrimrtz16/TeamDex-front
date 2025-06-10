@@ -11,16 +11,28 @@ import MoveList from "./searchViews/moves/MoveList";
 import StatsEditor from "./searchViews/stats/StatsEditor";
 import MiscellaneousEditor from "./searchViews/miscelaneous/MiscelaneousEditor";
 import useMe from "../../hooks/useMe";
-import { getCreateTeam } from "../../services/getCreateTeam";
+import { getCreateTeam } from "../../services/teams/getCreateTeam";
+import { getUpdateTeam } from "../../services/teams/getUpdateTeam";
+import Loader from "../loader/Loader";
 
-const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam, importTeam, setImportTeam}) => {
+const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam, importTeam, setImportTeam, importedTeam}) => {
 
+    const token = localStorage.getItem("token");
     const { isDarkMode } = useTheme();
-    const { pokemonData: pokemon } = usePokemonData(id);
-
+    const { pokemonData: pokemon } = usePokemonData(id || team[actualPokemon].name.toLowerCase()
+                                                                                    .replace(/[\s_]+/g, "-")
+                                                                                    .replace(/-f$/, "-female")
+                                                                                    .replace(/-m$/, "-male")
+                                                                                    .replace(/^landorus$/, "landorus-incarnate")
+                                                                                    .replace(/^tornadus$/, "tornadus-incarnate")
+                                                                                    .replace(/^thundurus$/, "thundurus-incarnate")
+                                                                                    .replace(/^enamorus$/, "enamorus-incarnate")
+                                                                                    .replace(/^urshifu$/, "urshifu-single-strike") 
+                                                                                );
+        
     const { items = [], buscandoItems } = useItems(); 
-    const { abilities = [], buscandoAbilities } = useAbilities(id);
-    const { moves = [], buscandoMoves } = useMoves(id);
+    const { abilities = [], buscandoAbilities } = useAbilities(pokemon.id);
+    const { moves = [], buscandoMoves } = useMoves(pokemon.id);
 
     const [name, setName] = useState(team[actualPokemon].name || "");
     const [item, setItem] = useState(team[actualPokemon].item || "");
@@ -41,6 +53,28 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
     const [abilitieFilter, setAbilitieFilter] = useState("");
     const [moveFilter, setMoveFilter] = useState("");
 
+    useEffect(() => {
+        if (pokemon && pokemon.stats) {
+            setTeam(prevTeam => {
+                const updatedTeam = [...prevTeam];
+                updatedTeam[actualPokemon] = {
+                    ...updatedTeam[actualPokemon],
+                    name: pokemon.name,
+                    sprite: pokemon.sprite,
+                    stats: [
+                        pokemon.stats[0],
+                        pokemon.stats[1],
+                        pokemon.stats[2],
+                        pokemon.stats[3],
+                        pokemon.stats[4],
+                        pokemon.stats[5],
+                    ],
+                };
+                return updatedTeam;
+            });
+        }
+    }, [pokemon]);
+    
     const filteredItems = items.filter(item =>
         item.name.toLowerCase().includes(itemFilter.toLowerCase())
     );
@@ -55,10 +89,12 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
 
 
     useEffect(() => {
-        setName(team[actualPokemon].name || "");
-        setItem(team[actualPokemon].item || "");
-        setAbilitie(team[actualPokemon].abilitie || "");
-        setMoveSet(team[actualPokemon].moves || ["", "", "", ""]);
+        setName(team[actualPokemon].name.replace(/\s+/g, '-').toLowerCase() || "");
+        setItem(team[actualPokemon].item.replace(/\s+/g, '-').toLowerCase() || "");
+        setAbilitie(team[actualPokemon].abilitie.replace(/\s+/g, '-').toLowerCase() || "");
+        setMoveSet(
+            (team[actualPokemon].moves || ["", "", "", ""]).map(move => move.replace(/\s+/g, '-').toLowerCase())
+        );
         setStats(team[actualPokemon].stats || [0, 0, 0, 0, 0, 0]);
         setEvs(team[actualPokemon].evs || [0, 0, 0, 0, 0, 0]);
         setIvs(team[actualPokemon].ivs || [31, 31, 31, 31, 31, 31]);
@@ -199,21 +235,28 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
             .join(' / ');
 
         const capitalizedMoves = [...moves]
+            .filter(move => move && move.trim() !== "")
             .map(
-            (move) =>
-                `- ${move
-                .split('-')
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ')}`
+                (move) =>
+                    `- ${move
+                        .split('-')
+                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ')}`
             )
             .join('\n');
 
-return `${name.charAt(0).toUpperCase() + name.slice(1)} @ ${toTitleCase(item)}
-Ability: ${toTitleCase(abilitie)}
-Level: ${level}
-${shiny ? 'Shiny: Yes\n' : ''}Tera Type: ${toTitleCase(teraType)}
-${formattedEVs ? `EVs: ${formattedEVs}\n` : ''}${nature} Nature
-${formattedIVs ? `IVs: ${formattedIVs}\n` : ''}${capitalizedMoves}`;
+return (
+`${name.charAt(0).toUpperCase() + name.slice(1)} @ ${toTitleCase(item)}  \n` +
+`Ability: ${toTitleCase(abilitie)}  \n` +
+`Level: ${level}  \n` +
+(shiny ? 'Shiny: Yes  \n' : '') +
+`Tera Type: ${toTitleCase(teraType)}  \n` +
+(formattedEVs ? `EVs: ${formattedEVs}  \n` : '') +
+`${nature} Nature  \n` +
+(formattedIVs ? `IVs: ${formattedIVs}  \n` : '') +
+capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
+);
+
     }
 
     function toTitleCase(str) {
@@ -268,13 +311,60 @@ ${formattedIVs ? `IVs: ${formattedIVs}\n` : ''}${capitalizedMoves}`;
             result.push(cleaned);
         }
 
-        const token = localStorage.getItem("token");
-        getCreateTeam(teamName, result[0], result[1], result[2], result[3], result[4], result[5], token)
-    //    window.location.href = '/teams';
+        
+        
+        if(importedTeam) {
+            if(importedTeam.id === "external") {
+                console.log(importedTeam)
+                console.log(result)
+                getCreateTeam(teamName, result[0], result[1], result[2], result[3], result[4], result[5], token);
+            } else {
+                getUpdateTeam(teamName, result[0], result[1], result[2], result[3], result[4], result[5], token, importedTeam.id)
+            }
+        } else {
+            getCreateTeam(teamName, result[0], result[1], result[2], result[3], result[4], result[5], token)
+        }
+
+        // window.location.href = '/teams';
     }
 
-    if (!pokemon) return <div>Cargando...</div>; 
+    useEffect(() => {
+        if (importedTeam) {
+            setTeamName(importedTeam.teamName || "");
+            setTeam(importedTeam.pokemons.map(pokemon => ({
+                name: pokemon.name || "",
+                item: pokemon.item || "",
+                abilitie: pokemon.abilitie || "",
+                moves: pokemon.moves || ["", "", "", ""],
+                stats: pokemon.stats || [0, 0, 0, 0, 0, 0],
+                evs: pokemon.evs || [0, 0, 0, 0, 0, 0],
+                ivs: pokemon.ivs || [31, 31, 31, 31, 31, 31],
+                nature: pokemon.nature || "",
+                natureUp: pokemon.natureUp || 1,
+                natureDown: pokemon.natureDown || 1,
+                natureNeutral: pokemon.natureNeutral || false,
+                level: pokemon.level || 100,
+                shiny: pokemon.shiny || false,
+                teraType: pokemon.teraType || "normal",
+                sprite: pokemon.sprite || ""
+            })));
+        }
+    }, [importedTeam]);
 
+    if(!token) {
+        return (
+            <div className='container'>
+                <div className="row">
+                    <div className="col-12">
+                        <h1 className='text-center !mt-20'>Por favor, inicia sesión para editar tu equipo.</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!pokemon) return <Loader />; 
+    
     return (
         <div className="pt-[40px] pb-[20px]">
             <div className="row">
@@ -358,10 +448,10 @@ ${formattedIVs ? `IVs: ${formattedIVs}\n` : ''}${capitalizedMoves}`;
                             <button className="px-8 py-2 mx-3 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportTextTeam(!exportTextTeam)} }>
                                 Export Team
                             </button>
-                            <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => saveTeam()}>
+                            <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {saveTeam(team.map(pokemon => convertToTextFormat(pokemon)).join('\n\n'))}}>
                                 Save Team
                             </button>
-                            <input type="text" id="teamName" className={`w-auto p-2 rounded-lg border-2 !mx-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="teamName"/>
+                            <input type="text" id="teamName" className={`w-auto p-2 rounded-lg border-2 !mx-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="teamName" value={teamName} onChange={e => {setTeamName(e.target.value)}}/>
 
                             {exportText && (
                                 <textarea

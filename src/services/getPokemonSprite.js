@@ -5,16 +5,11 @@ export function getPokemonSprite(name) {
         .replace(/[\s_]+/g, "-")
         .replace(/-f$/, "-female")
         .replace(/-m$/, "-male")
-        .replace(/landorus$/, "landorus-incarnate")
-        .replace(/tornadus$/, "tornadus-incarnate")
-        .replace(/thundurus$/, "thundurus-incarnate")
-        .replace(/enamorus$/, "enamorus-incarnate")
-        .replace(/^urshifu$/, "urshifu-single-strike") // <-- Añadido aquí
-
-
-
-
-    console.log("Fetching sprite for:", formattedName);
+        .replace(/^landorus$/, "landorus-incarnate")
+        .replace(/^tornadus$/, "tornadus-incarnate")
+        .replace(/^thundurus$/, "thundurus-incarnate")
+        .replace(/^enamorus$/, "enamorus-incarnate")
+        .replace(/^urshifu$/, "urshifu-single-strike") 
 
     return fetch(`https://pokeapi.co/api/v2/pokemon/${formattedName}`)
         .then(response => {

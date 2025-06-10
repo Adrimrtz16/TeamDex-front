@@ -29,7 +29,10 @@ const RegisterForm = () => {
         const email = form.email.value.trim();
         const profilePictureUrl = profilePic || '';
 
-        // Puedes añadir validaciones extra aquí si quieres
+        if (!profilePictureUrl) {
+            setError('Selecciona una imagen de perfil.');
+            return;
+        }
 
         const result = await getRegister(username, password, email, profilePictureUrl);
 

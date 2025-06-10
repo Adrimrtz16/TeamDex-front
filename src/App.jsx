@@ -10,6 +10,7 @@ import Register from './pages/Register'
 import User from './pages/User'
 import Users from './pages/UserList'
 import Me from './components/login/Me'
+import TeamsExplorer from './pages/TeamsExplorer'
 
 function AppContent() {
   
@@ -22,6 +23,7 @@ function AppContent() {
         <Route path='' element={<Home/>}/>
         <Route path='/teams' element={<Teams/>}/>
         <Route path='/teams/teambuilder' element={<TeamBuilder/>}/>
+        <Route path='/teams/explorer' element={<TeamsExplorer/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/users' element={<Users />}/>

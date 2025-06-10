@@ -4,7 +4,7 @@ const defaultTemplate = {
   name: '',
   level: 100,
   shiny: false,
-  sprite: "",      // asumimos que `addImg` existe en el scope
+  sprite: "",     
   item: '',
   teraType: 'normal',
   abilitie: '',
@@ -19,6 +19,7 @@ const defaultTemplate = {
 };
 
 export function useBuildingTeam(teamArr) {
+
   return teamArr.map(str => {
     // si viene vacío, devolvemos copia del template
     if (!str) return { ...defaultTemplate };
@@ -90,10 +91,26 @@ export function useBuildingTeam(teamArr) {
       }
     });
 
-    // c) movimientos (los últimos 4 tokens que empiecen con “- ”)
-    const moves = tokens.filter(t => t.startsWith('- ')).slice(0,4)
-                        .map(m => m.slice(2).trim());
-    for (let i = 0; i < 4; i++) obj.moves[i] = moves[i] || '';
+    // c) movimientos: busca todos los "- Move" en el string original
+    const movesMatch = str.match(/-\s+([^\-]+)/g) || [];
+    obj.moves = movesMatch.map(m => m.replace(/-\s+/, '').trim()).slice(0, 4);
+    
+    const moveMap = {
+        'u': 'U-turn',
+        'double': 'Double-Edge',
+        'self': 'Self-Destruct',
+        'x': 'X-Scissor',
+        'baby': 'Baby-Doll Eyes',
+        'v': 'V-create',
+        'power': 'Power-Up Punch',
+        'multi': 'Multi-Attack',
+        'freeze': 'Freeze-Dry'
+    };
+
+    obj.moves = obj.moves.map(move => {
+        const key = move.toLowerCase();
+        return moveMap[key] || move;
+    });
 
     return obj;
   });

@@ -9,16 +9,19 @@ const HomeBody = () => {
 
     const { isDarkMode } = useTheme();
 
+    const token = localStorage.getItem('token');
+
     // Constantes de clases
-    const cardClass = `bg-gray-100 shadow-md rounded-[20px] ${isDarkMode ? 'bg-slate-950 text-white' : 'bg-gray-100'}`;
+    const cardClass = `mt-10 bg-gray-100 shadow-md rounded-[20px] ${isDarkMode ? 'bg-slate-950 text-white' : 'bg-gray-100'}`;
     const buttonClass = "px-6 py-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300";
     const linkClass = `!no-underline ${isDarkMode ? 'text-white' : '!text-slate-800'}`;
 
     return (
         <div className='container'>
+            {!token ? 
             <div className="row">
                 <div className="col-12">
-                    <div className={`mt-20 mb-10 ${cardClass}`}>
+                    <div className={`${cardClass}`}>
                         <div className="row">
                             <div className="col-4">
                                 <img className='m-5' src={pokeBall} alt="" />
@@ -35,23 +38,27 @@ const HomeBody = () => {
                                     </ul>
                                 
                                     <p>¡Empieza ahora y lleva tu juego al siguiente nivel! 🚀</p>
-
-                                    <button className={buttonClass}>
-                                        Comenzar
-                                    </button>
+                                    <Link to={'/register'} className={linkClass}>
+                                        <button className={buttonClass}>
+                                            Comenzar
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            :
+            <></>
+        }
             <div className="row">
                 <div className="col-4">
                     <div className={cardClass}>
                         <img className='p-5' src={dragapult} alt="" />
                         <div className='mx-20 pb-10'>
                             <h1>Teambuilder</h1>
-                            <p className='my-3'>Construye equipos Pokémon estratégicos de forma sencilla y eficaz. Elige tus Pokémon, personaliza sus movimientos y estadísticas. Además, puedes exportar tu equipo a Pokémon Showdown. ¡Crea tu equipo ideal y domina el combate!</p>
+                            <p className='my-3'>Construye equipos Pokémon de forma sencilla y eficaz. Elige tus Pokémon, personaliza sus movimientos y estadísticas. Además, puedes exportar tu equipo a Pokémon Showdown.</p>
                             <Link className={linkClass} to='/teams'>
                                 <button className={buttonClass}>
                                     Gestiona tus equipos
@@ -65,10 +72,12 @@ const HomeBody = () => {
                         <img className='p-5' src={lucario} alt="" />
                         <div className='mx-20 pb-10'>
                             <h1>Trending</h1>
-                            <p className='my-3'>Explora los equipos más populares del momento. Descubre las mejores combinaciones utilizadas por otros entrenadores, analiza estrategias y encuentra inspiración para mejorar tu propio equipo. ¡Sigue las tendencias y prepárate para la batalla!</p>
-                            <button className={buttonClass}>
-                                Mira lo mas usado
-                            </button>
+                            <p className='my-3'>Explora los equipos más populares del momento. Descubre las mejores combinaciones utilizadas por otros entrenadores, analiza estrategias y encuentra inspiración para mejorar tu propio equipo.</p>
+                            <Link className={linkClass} to='/teams/explorer'>
+                                <button className={buttonClass}>
+                                    Mira lo mas usado
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -77,7 +86,7 @@ const HomeBody = () => {
                         <img className='p-5' src={aggron} alt="" />
                         <div className='mx-20 pb-10'>
                             <h1>Explora</h1>
-                            <p className='my-3'>Descubre a otros entrenadores Pokémon de la comunidad. Explora perfiles, consulta sus equipos, comparte estrategias y encuentra inspiración para mejorar tu juego tanto en Singles como de VGC. ¡Conecta, aprende y forma parte de la comunidad TeamDex!</p>
+                            <p className='my-3'>Descubre a otros entrenadores Pokémon de la comunidad. Explora perfiles, consulta sus equipos, comparte estrategias y encuentra inspiración para mejorar tu juego tanto en Singles como de VGC.</p>
                             <Link className={linkClass} to='/users'>
                                 <button className={buttonClass}>Explora usuarios</button>
                             </Link>

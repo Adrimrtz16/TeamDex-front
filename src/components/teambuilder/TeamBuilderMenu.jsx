@@ -6,7 +6,7 @@ import usePokemons from "../../hooks/usePokemons";
 import addDark from '../../assets/addDark.png';
 import addLight from '../../assets/addLight.png';
 
-const TeamBuilderMenu = () => {
+const TeamBuilderMenu = ({importedTeam}) => {
 
     const { isDarkMode } = useTheme();
     const addImg = isDarkMode ? addDark : addLight;
@@ -39,7 +39,7 @@ const TeamBuilderMenu = () => {
         Array.from({ length: 6 }, () => ({ ...pokemonTeamplate }))
     );
 
-    const [search, setSearch] = useState(1);
+    const [search, setSearch] = useState(0);
     const [exportText, setExportText] = useState(false);
     const [exportTextTeam, setExportTextTeam] = useState(false);
     const [importTeam, setImportTeam] = useState(false);
@@ -86,6 +86,7 @@ const TeamBuilderMenu = () => {
                                         importTeam={importTeam}
                                         setImportTeam={setImportTeam}
                                         addImg={addImg}
+                                        importedTeam={importedTeam}
                                     />
                                 </div>
                             </div>
