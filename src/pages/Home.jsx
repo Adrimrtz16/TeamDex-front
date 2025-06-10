@@ -1,4 +1,4 @@
-import HomeBody from "../components/homeBody/HomeBody"
+import HomeBody from "../components/HomeBody"
 
 const Home = () => {
 

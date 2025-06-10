@@ -1,9 +1,9 @@
-import pokeBall from '../../assets/pokeball.webp';
-import { useTheme } from '../../contexts/ThemeContext';
+import pokeBall from '../assets/pokeball.webp';
+import { useTheme } from '../contexts/ThemeContext';
 import { Link } from 'react-router-dom';
-import dragapult from '../../assets/887.png';
-import lucario from '../../assets/448.png';
-import aggron from '../../assets/306.png';
+import dragapult from '../assets/887.png';
+import lucario from '../assets/448.png';
+import aggron from '../assets/306.png';
 
 const HomeBody = () => {
 

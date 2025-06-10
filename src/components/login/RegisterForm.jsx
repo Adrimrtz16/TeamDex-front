@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import PictureList from '../profilePictures/PictureList';
+import PictureList from '../PictureList';
 import { getRegister } from '../../services/auth/getRegister';
 
 const RegisterForm = () => {

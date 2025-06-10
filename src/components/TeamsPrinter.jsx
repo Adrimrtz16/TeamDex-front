@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useBuildingTeam } from "../../hooks/useBuildingTeam";
-import { getPokemonSprite } from "../../services/getPokemonSprite";
-import useTeams from "../../hooks/useTeams";
-import Loader from "../loader/Loader";
+import { useTheme } from "../contexts/ThemeContext";
+import { useBuildingTeam } from "../hooks/useBuildingTeam";
+import { getPokemonSprite } from "../services/getPokemonSprite";
+import useTeams from "../hooks/useTeams";
+import Loader from "./loader/Loader";
 import { Link } from "react-router-dom";
 
 

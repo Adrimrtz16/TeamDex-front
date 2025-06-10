@@ -1,4 +1,4 @@
-import TeamsPrinter from "../components/teamsPrinter/TeamsPrinter";
+import TeamsPrinter from "../components/TeamsPrinter";
 
 const TeamsExplorer = () => {
     

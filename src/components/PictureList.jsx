@@ -1,5 +1,5 @@
-import { useTheme } from "../../contexts/ThemeContext";
-import { getProfilePics } from "../../services/getProfilePics";
+import { useTheme } from "../contexts/ThemeContext";
+import { getProfilePics } from "../services/getProfilePics";
 
 const PictureList = ({setProfilePic, setProfilePicView}) => {
 

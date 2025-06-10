@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import dark from '../../assets/dark.png';
-import light from '../../assets/light.png';
-import { useTheme } from '../../contexts/ThemeContext';
+import dark from '../assets/dark.png';
+import light from '../assets/light.png';
+import { useTheme } from '../contexts/ThemeContext';
 import { Link } from 'react-router-dom';
-import { getMe } from '../../services/auth/getMe';
-import useMe from '../../hooks/useMe';
+import { getMe } from '../services/auth/getMe';
+import useMe from '../hooks/useMe';
 
 const Header = () => {
 
