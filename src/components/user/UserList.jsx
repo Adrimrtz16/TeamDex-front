@@ -41,7 +41,11 @@ const UserList = () => {
                                     </div>
                                     <div className="col-8">
                                         <h6 className="pt-2 mb-1">{user.username} ID: {user.id}</h6>
-                                        <p className="mb-0">{user.bio}</p>
+                                        <p className="mb-0">
+                                        {user.bio && user.bio.length > 40
+                                            ? user.bio.slice(0, 37) + '...'
+                                            : user.bio}
+                                        </p>
                                     </div>
                                 </div>
                             </Link>

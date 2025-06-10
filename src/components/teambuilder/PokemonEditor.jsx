@@ -325,7 +325,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
             getCreateTeam(teamName, result[0], result[1], result[2], result[3], result[4], result[5], token)
         }
 
-        // window.location.href = '/teams';
+        window.location.href = '/teams';
     }
 
     useEffect(() => {

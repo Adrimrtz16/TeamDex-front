@@ -71,7 +71,7 @@ const HomeBody = () => {
                     <div className={cardClass}>
                         <img className='p-5' src={lucario} alt="" />
                         <div className='mx-20 pb-10'>
-                            <h1>Trending</h1>
+                            <h1>Equipos</h1>
                             <p className='my-3'>Explora los equipos más populares del momento. Descubre las mejores combinaciones utilizadas por otros entrenadores, analiza estrategias y encuentra inspiración para mejorar tu propio equipo.</p>
                             <Link className={linkClass} to='/teams/explorer'>
                                 <button className={buttonClass}>
@@ -85,7 +85,7 @@ const HomeBody = () => {
                     <div className={cardClass}>
                         <img className='p-5' src={aggron} alt="" />
                         <div className='mx-20 pb-10'>
-                            <h1>Explora</h1>
+                            <h1>Usuarios</h1>
                             <p className='my-3'>Descubre a otros entrenadores Pokémon de la comunidad. Explora perfiles, consulta sus equipos, comparte estrategias y encuentra inspiración para mejorar tu juego tanto en Singles como de VGC.</p>
                             <Link className={linkClass} to='/users'>
                                 <button className={buttonClass}>Explora usuarios</button>
