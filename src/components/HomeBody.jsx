@@ -1,9 +1,9 @@
 import pokeBall from '../assets/pokeball.webp';
 import { useTheme } from '../contexts/ThemeContext';
 import { Link } from 'react-router-dom';
-import dragapult from '../assets/887.png';
-import lucario from '../assets/448.png';
-import aggron from '../assets/306.png';
+import dragapult from '../assets/887.webp';
+import lucario from '../assets/448.webp';
+import aggron from '../assets/306.webp';
 
 const HomeBody = () => {
 
@@ -20,13 +20,13 @@ const HomeBody = () => {
         <div className='container'>
             {!token ? 
             <div className="row">
-                <div className="col-12">
+                <div className="col-md-12 d-md-block d-none">
                     <div className={`${cardClass}`}>
                         <div className="row">
-                            <div className="col-4">
+                            <div className="col-md-4">
                                 <img className='m-5' src={pokeBall} alt="" />
                             </div>
-                            <div className="col-8">
+                            <div className="col-md-8">
                                 <div className='m-20'>
                                     <h1>Bienvenido a TeamDex</h1>
                                     <p>Descubre, crea y comparte tus equipos Pokémon con facilidad. TeamDex te permite construir equipos estratégicos utilizando datos en tiempo real de la <strong>PokeAPI</strong> y exportarlos para <strong>Pokémon Showdown</strong>.</p>
@@ -53,7 +53,7 @@ const HomeBody = () => {
             <></>
         }
             <div className="row">
-                <div className="col-4">
+                <div className="col-md-4 col-12">
                     <div className={cardClass}>
                         <img className='p-5' src={dragapult} alt="" />
                         <div className='mx-20 pb-10'>
@@ -67,7 +67,7 @@ const HomeBody = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
+                <div className="col-md-4 col-12">
                     <div className={cardClass}>
                         <img className='p-5' src={lucario} alt="" />
                         <div className='mx-20 pb-10'>
@@ -81,7 +81,7 @@ const HomeBody = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
+                <div className="col-md-4 col-12">
                     <div className={cardClass}>
                         <img className='p-5' src={aggron} alt="" />
                         <div className='mx-20 pb-10'>
@@ -95,7 +95,7 @@ const HomeBody = () => {
                 </div>
             </div>
             <div className='row'>
-                <div className='col-12'>
+                <div className='col-md-12'>
                     <br /><br />
                 </div>
             </div>

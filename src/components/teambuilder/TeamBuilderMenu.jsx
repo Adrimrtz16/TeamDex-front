@@ -47,10 +47,15 @@ const TeamBuilderMenu = ({importedTeam}) => {
     return (
         <div className='container'>
             <div className="row">
-                <div className="col-12">
+                <div className="col-md-12 d-md-none d-block">
+                    <h4 className="text-center !mt-10 !mb-0">Coloca el dispositivo en horizontal</h4>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-12">
                     <div className={`mt-20 mb-10 bg-gray-100 shadow-md rounded-[20px] ${isDarkMode ? 'bg-slate-950' : 'bg-gray-100'}`}>
                         <div className="row">
-                            <div className="col-2 p-4">
+                            <div className="col-md-2 p-4">
                                 {team.map((team, index) => (
                                     <PokemonSprite
                                         key={index}
@@ -65,7 +70,7 @@ const TeamBuilderMenu = ({importedTeam}) => {
                                     />
                                 ))}
                             </div>
-                            <div className="col-10">
+                            <div className="col-md-10">
                                 <div className='mr-10'>
                                     <PokemonEditor 
                                         setNameFilter={setNameFilter}

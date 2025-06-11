@@ -42,10 +42,10 @@ const MiscellaneousEditor = ({setTeam, actualPokemon, shiny, setShiny, level, se
     return (
         <>
             <div className="row">
-                <div className="col-12">
+                <div className="col-md-12">
                     <div className={`my-2 rounded-lg shadow-md border-2 hover:shadow-lg transition p-3 text-center ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
                         <div className="row">
-                            <div className="col-12 flex justify-center items-center gap-4">
+                            <div className="col-md-12 flex justify-center items-center gap-4">
                                 <div className="flex justify-center items-center ">
                                     <p className="mb-0 mr-3"><strong>Level:</strong> </p>
                                     <input className="border-1 pl-1" type="number" min={1} max={100} value={level} onChange={e => levelChange(e.target.value)}/>

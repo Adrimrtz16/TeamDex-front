@@ -18,7 +18,7 @@ const UserList = () => {
 
     return (
         <div className="row">
-            <div className="col-12">
+            <div className="col-md-12">
                 <h2 className="text-center !mt-10 !mb-6">Entrenadores socios de TeamDex</h2>
                 <div className="flex justify-center mb-4">
                     <input className="border-1 pl-2" type="text" placeholder="Busca usuario por ID"/>
@@ -27,7 +27,7 @@ const UserList = () => {
             </div>
             {buscandoUsers ? <Loader/> : 
                 users.map((user) => (
-                    <div className="col-3" key={user.id}>
+                    <div className="col-md-3 col-6" key={user.id}>
                         <div className={cardClass}>
                             <Link to={`/users/user/${user.id}`} className={linkClass}>
                                 <div className="row">
@@ -37,7 +37,7 @@ const UserList = () => {
                                             : <div className="sprite m-2 bg-gray-300 rounded-full w-16 h-16 flex items-center justify-center">
                                                 <span className="text-gray-500">?</span>
                                             </div>
-                                        }
+                                      }
                                     </div>
                                     <div className="col-8">
                                         <h6 className="pt-2 mb-1">{user.username} ID: {user.id}</h6>

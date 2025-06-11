@@ -3,8 +3,8 @@ export async function getRegister(username, password, email, profilePictureUrl =
     const body = { username, password, email, profilePictureUrl };
     if (role) body.role = role;
 
-    const response = await fetch('http://localhost:8080/auth/register', {
-    //const response = await fetch('https://teamdex-back.onrender.com/auth/register', {
+    //const response = await fetch('http://localhost:8080/auth/register', {
+    const response = await fetch('https://teamdex-back.onrender.com/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)

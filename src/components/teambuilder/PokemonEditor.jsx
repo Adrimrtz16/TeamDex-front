@@ -10,10 +10,10 @@ import useMoves from "../../hooks/useMoves";
 import MoveList from "./searchViews/moves/MoveList";
 import StatsEditor from "./searchViews/stats/StatsEditor";
 import MiscellaneousEditor from "./searchViews/miscelaneous/MiscelaneousEditor";
-import useMe from "../../hooks/useMe";
 import { getCreateTeam } from "../../services/teams/getCreateTeam";
 import { getUpdateTeam } from "../../services/teams/getUpdateTeam";
 import Loader from "../loader/Loader";
+import useDebouncedValue from "../../hooks/useDebouncedValue";
 
 const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , pokemonSeleccionado, setPokemonSeleccionado , setPokemonSeleccionadoId, team, setTeam, actualPokemon, search, setSearch, exportText, setExportText, exportTextTeam, setExportTextTeam, importTeam, setImportTeam, importedTeam}) => {
 
@@ -33,6 +33,12 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
     const { items = [], buscandoItems } = useItems(); 
     const { abilities = [], buscandoAbilities } = useAbilities(pokemon.id);
     const { moves = [], buscandoMoves } = useMoves(pokemon.id);
+
+    const [rawName, setRawName] = useState('')
+    const debouncedName = useDebouncedValue(rawName, 200)
+    useEffect(() => {
+        setNameFilter(debouncedName)
+    }, [debouncedName, setNameFilter])
 
     const [name, setName] = useState(team[actualPokemon].name || "");
     const [item, setItem] = useState(team[actualPokemon].item || "");
@@ -106,11 +112,6 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
         setShiny(team[actualPokemon].shiny || false);
         setTeraType(team[actualPokemon].teraType || "normal");
     }, [actualPokemon, team]);
-
-    function changePokemonName(e) {
-        setName(e);
-        setNameFilter(e);
-    }
 
     function changePokemonItem(e) {
         setItem(e);
@@ -355,7 +356,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
         return (
             <div className='container'>
                 <div className="row">
-                    <div className="col-12">
+                    <div className="col-md-12">
                         <h1 className='text-center !mt-20'>Por favor, inicia sesión para editar tu equipo.</h1>
                     </div>
                 </div>
@@ -368,13 +369,18 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
     return (
         <div className="pt-[40px] pb-[20px]">
             <div className="row">
-                <div className="col-2">
+                <div className="col-md-12 d-md-none d-block">
+                    <p className="text-center !mt-10 !mb-0">Coloca el dispositivo en horizontal</p>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-2">
                     <img className={`w-37 rounded-lg border-3 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} src={team[actualPokemon].sprite}  alt="" />
                 </div>
-                <div className="col-3">
+                <div className="col-md-3">
                     <div className="flex justify-center items-center gap-2">
                         <label className="ml-[2px]" htmlFor="name">Name: </label>
-                        <input type="text" id="name" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="name" value={name} onClick={() => setSearch(1)} onChange={e => changePokemonName(e.target.value)}/>
+                        <input type="text" id="name" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="name" value={rawName} onClick={() => setSearch(1)} onChange={e => setRawName(e.target.value)}/>
                     </div>
                     <div className="flex justify-center items-center gap-2 mt-2">
                         <label className="ml-3" htmlFor="item">Item: </label>
@@ -385,7 +391,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                         <input type="text" id="ability" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="abilitie" value={abilitie} onClick={() => setSearch(3)} onChange={e => changePokemonAbilitie(e.target.value)}/>
                     </div>
                 </div>
-                <div className="col-4">
+                <div className="col-md-4">
                     <div className="flex gap-2">
                         <input type="text" id="name" className={`p-2 w-100 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="move 1" value={moveSet[0]} onClick={() => {setSearch(4); setMoveIndex(0)}} onChange={e => changePokemonMove(e.target.value)}/>
                         <input type="text" id="name" className={`p-2 w-100 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="move 3" value={moveSet[2]} onClick={() => {setSearch(4); setMoveIndex(2)}} onChange={e => changePokemonMove(e.target.value)}/>
@@ -401,7 +407,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                         <input type="text" id="extradata" readOnly className={`w-100 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} value={teraType} onClick={() => setSearch(6)} />
                      </div>
                 </div>
-                <div className="col-3">
+                <div className="col-md-3">
                     <div id="evs" className={`cursor-pointer h-100 w-100 pl-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} onClick={() => setSearch(5)}>
                         <div className="flex flex-col h-full text-sm pt-[12px] pl-[9px]"> 
                             {pokemon && pokemon.stats && stats.map((stat, i) => {
@@ -434,18 +440,19 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div className="row">
-                <div className="col-12 pt-1">
+                <div className="col-md-12 pt-1">
                     <button className="px-8 py-2 my-2 !mr-4 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setImportTeam(!importTeam); setSearch(0);}}>
                         Import Team
                     </button>
                     {!importTeam ? 
                         <>
-                            <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportText(!exportText)} }>
+                            <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportText(!exportText); setExportTextTeam(false); setSearch(0)} }>
                                 Export Pokémon
                             </button>
-                            <button className="px-8 py-2 mx-3 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportTextTeam(!exportTextTeam)} }>
+                            <button className="px-8 py-2 mx-3 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {setExportTextTeam(!exportTextTeam); setExportText(false); setSearch(0)} }>
                                 Export Team
                             </button>
                             <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {saveTeam(team.map(pokemon => convertToTextFormat(pokemon)).join('\n\n'))}}>
@@ -474,7 +481,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                                 <button className="px-8 py-2 my-2 bg-red-500 text-white font-semibold !rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition duration-300" onClick={() => {saveTeam(importText)}} >
                                     Save
                                 </button>
-                                <input type="text" id="teamName" className={`w-auto p-2 rounded-lg border-2 !mx-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="teamName" value={teamName} onChange={e => {setTeamName(e.target.value)}}/>
+                                <input type="text" id="teamName" className={`w-auto p-2 rounded-lg border-2 !mx-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="Team Name" value={teamName} onChange={e => {setTeamName(e.target.value)}}/>
 
                                 <textarea
                                         className={`w-full mt-2 p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}
@@ -487,7 +494,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                 </div>
             </div>
             <div className="row">
-                <div className="col-12">
+                <div className="col-md-12">
                     {busquedaEditor()}
                 </div>
             </div>

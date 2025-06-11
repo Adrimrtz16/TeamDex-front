@@ -146,25 +146,25 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
     return (
         <>
             <div className="row">
-                <div className="col-12">
+                <div className="col-md-12">
                     <div className={`my-2 rounded-lg shadow-md border-2 hover:shadow-lg transition p-2 text-center min-h-[118px] ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
                         <div className="row">
-                            <div className="col-2">
+                            <div className="col-md-2">
                                 <h5 className="mb-1 ml-4 text-left">Base stats</h5>
                             </div>
-                            <div className="col-3">
+                            <div className="col-md-3">
                                 <h5 className="mb-1 text-left">Evs <span className="text-sm">Remaining: {evsRemaining}</span></h5>
                             </div>
-                            <div className="col-2">
+                            <div className="col-md-2">
                                 <h5 className="mb-1 ml-4 text-left whitespace-nowrap">Nature <span className="text-sm">{nature}</span></h5>
                             </div>
-                            <div className="col-1">
+                            <div className="col-md-1">
                                 <h5 className="mb-1 text-left">Ivs</h5>
                             </div>
-                            <div className="col-3">
+                            <div className="col-md-3">
                                 <h5 className="mb-1 ml-4 text-left">Final stats</h5>
                             </div>
-                            <div className="col-2">
+                            <div className="col-md-2">
                                 <div className="ml-4">
                                     <p className="mb-0 pb-[10px] text-left">HP: <span className={`${statColors[0]}`}>{stats[0]}</span></p>
                                     <p className="mb-0 pb-[10px] text-left">Attack: <span className={`${statColors[1]}`}>{stats[1]}</span></p>
@@ -174,19 +174,19 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
                                     <p className="mb-0 pb-[10px] text-left">Speed: <span className={`${statColors[5]}`}>{stats[5]}</span></p>
                                 </div>
                             </div>
-                            <div className="col-2 flex flex-col items-start justify-end gap-[18px] pb-[29px]">
+                            <div className="col-md-2 flex flex-col items-start justify-end gap-[18px] pb-[29px]">
                                 {evs.map((ev, index) => (
                                     <input key={index} type="range" min="0" max="252" value={ev} onChange={e => evsChange(index, e.target.value)}/>
                                 ))}
                             </div>
-                            <div className="col-1 flex flex-col items-start justify-end gap-2 pb-4">
+                            <div className="col-md-1 flex flex-col items-start justify-end gap-2 pb-4">
                                 {evs.map((ev, index) => (
                                     <input className="border-1 pl-1" key={index} type="number" min="0" max="252" value={ev} onChange={e => evsChange(index, e.target.value)}/>
                                 ))}
                             </div>
                             { !natureNeutral ? (
                                 <>
-                                <div className="col-1">
+                                <div className="col-md-1">
                                     <div className="flex ml-4 gap-2 mb-[10px]">
                                         <input className="mt-0" id="neutral" name="nature-neutral" type="checkbox" checked={natureNeutral} onChange={e => setNatureNeutral(e.target.checked)} />
                                         <p className="mb-0">Neutral</p>
@@ -212,7 +212,7 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
                                         <p className="mb-0">Up</p>
                                     </div>
                                 </div>
-                                <div className="col-1">
+                                <div className="col-md-1">
                                     <div className="flex gap-2 mt-[34px] mb-[10px]">
                                         <input className="mt-0" id="1-down" name="nature-down" type="radio" value={1} checked={natureDown === 1} onChange={e => setNatureDown(e.target.value)}/>
                                         <p className="mb-0">Down</p>
@@ -236,22 +236,22 @@ const StatsEditor = ({setTeam, actualPokemon, stats, evs, setEvs, ivs, setIvs, n
                                 </div>
                                 </>) : (
                                 <>
-                                <div className="col-1">
+                                <div className="col-md-1">
                                     <div className="flex ml-4 gap-2 mb-[10px]">
                                         <input className="mt-0" id="neutral" name="nature-neutral" type="checkbox" checked={natureNeutral}  onChange={e => setNatureNeutral(e.target.checked)} />
                                         <p className="mb-0">Neutral</p>
                                     </div>
                                 </div>
-                                <div className="col-1">
+                                <div className="col-md-1">
                                 </div>
                                 </>)}
                             
-                            <div className="col-1 flex flex-col items-start justify-end gap-2 pb-4">
+                            <div className="col-md-1 flex flex-col items-start justify-end gap-2 pb-4">
                                 {ivs.map((iv, index) => (
                                     <input className="border-1 pl-1" key={index} type="number" min="0" max="252" value={iv} onChange={e => ivsChange(index, e.target.value)}/>
                                 ))}
                             </div>
-                            <div className="col-4">
+                            <div className="col-md-4">
                                 <div className="ml-4">
                                     {finalStats.map((stat, i) => {
                                         // Normaliza el stat entre 0 y 255 (ajusta el máximo según tus stats)

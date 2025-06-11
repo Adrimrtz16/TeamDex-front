@@ -33,7 +33,8 @@ export function useBuildingTeam(teamArr) {
     // a) name / item
     const first = tokens.find(t => t.includes('@')) || '';
     const [name = '', item = ''] = first.split('@').map(s => s.trim());
-    obj.name = name;
+    // Elimina (F) o (M) del nombre si existen
+    obj.name = name.replace(/\s*\((F|M)\)\s*/gi, '').trim();
     obj.item = item;
 
     // b) ability, level, shiny, teraType, evs, ivs, nature

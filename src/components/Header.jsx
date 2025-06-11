@@ -36,7 +36,7 @@ const Header = () => {
 
     return (
         <div className={headerClass}>
-            <div className="col-12">
+            <div className="col-md-12">
                 <div className='flex justify-between items-center px-4'>
                     <Link className={linkClass} to='/'>
                         <h1 className="text-4xl font-bold text-center py-4">

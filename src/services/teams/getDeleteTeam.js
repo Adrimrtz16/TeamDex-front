@@ -1,6 +1,7 @@
 export async function getDeleteTeam(token, id) {
   try {
-    const response = await fetch(`http://localhost:8080/teams/delete/${id}`, {
+    //const response = await fetch(`http://localhost:8080/teams/delete/${id}`, {
+    const response = await fetch(`https://teamdex-back.onrender.com/teams/delete/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -36,16 +36,16 @@ const Me = () => {
         me === null ? <Loader /> :
         <div className="container">
             <div className="row">
-                <div className="col-12">
+                <div className="col-md-12">
                     <div className={cardClass}>
                         <div className="row">
-                            <div className="col-3">
+                            <div className="col-md-3">
                                 <img className={imgClass} src={me.profilePictureUrl} alt="" />
                                 <div className="flex justify-center mt-4">
                                     <button onClick={updateBio} className={buttonClass}>Actualizar bio</button>
                                 </div>
                             </div>
-                            <div className="col-9">
+                            <div className="col-md-9">
                                 <h1 className={titleClass}>{me.username} <span className="font-light">ID: {me.id}</span></h1>
                                 <textarea className={`${textClass} w-100`}
                                     value={bio}

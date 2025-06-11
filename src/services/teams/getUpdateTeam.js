@@ -5,7 +5,8 @@ export async function getUpdateTeam(name, pokemon1, pokemon2, pokemon3, pokemon4
     }
 
     const body = { name, pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6 };
-    const response = await fetch(`http://localhost:8080/teams/update/${id}`, {
+    //const response = await fetch(`http://localhost:8080/teams/update/${id}`, {
+    const response = await fetch(`https://teamdex-back.onrender.com/teams/update/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

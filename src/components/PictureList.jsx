@@ -16,11 +16,11 @@ const PictureList = ({setProfilePic, setProfilePicView}) => {
 
 
     return (
-        <div className="col-12">
+        <div className="col-md-12">
             <div className="mt-10">
                 <div className="row">
                     {profilePictures.map((pic, index) => (
-                        <div key={index} className="col-2 mb-4" onFocus={() => handleSelectProfilePic(pic.url)} onClick={() => handleSelectProfilePic(pic.url)}>
+                        <div key={index} className="col-md-2 mb-4" onFocus={() => handleSelectProfilePic(pic.url)} onClick={() => handleSelectProfilePic(pic.url)}>
                             <img
                                 className={cardClass}
                                 src={pic.url}

@@ -55,12 +55,12 @@ const Pokemon = ({ name , id , tipos, stats, abilities, setPokemonSeleccionadoId
     }
     
     return (
-        <div className="col-3">
+        <div className="col-md-3">
             <div onClick={seleccionarPokemon} className={` cursor-pointer flex flex-col justify-between my-2 rounded-lg shadow-md border-2 hover:shadow-lg transition p-2 text-center min-h-[258px] ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`}>
             {/* <div className="flex flex-col justify-center !items-center !bg-white my-2 rou rounded-lg shadow-md border-2 border-gray-300 hover:shadow-lg transition duration-300 ease-in-out text-center !min-h-[400px]"></div> */}
                 <div>
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-md-3">
                             <p className={`mb-0 ${statColors[0]}`}>HP</p>
                             <p className={`mb-1 ${statColors[0]}`}>{stats[0]}</p>
                             <p className={`mb-0 ${statColors[1]}`}>ATK</p>
@@ -68,7 +68,7 @@ const Pokemon = ({ name , id , tipos, stats, abilities, setPokemonSeleccionadoId
                             <p className={`mb-0 ${statColors[3]}`}>SP. ATK</p>
                             <p className={`mb-1 ${statColors[3]}`}>{stats[3]}</p>
                         </div>
-                        <div className="col-6">
+                        <div className="col-md-6">
                             <img
                                 loading="lazy"
                                 src={src}
@@ -82,7 +82,7 @@ const Pokemon = ({ name , id , tipos, stats, abilities, setPokemonSeleccionadoId
                                 <p key={index} className="text-[12px] my-0">{ability}</p>
                             )}
                         </div>
-                        <div className="col-3 ">
+                        <div className="col-md-3 ">
                             <p className={`mb-0 ${statColors[5]}`}>SPD</p>
                             <p className={`mb-1 ${statColors[5]}`}>{stats[5]}</p>
                             <p className={`mb-0 ${statColors[2]}`}>DEF</p>

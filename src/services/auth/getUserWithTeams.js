@@ -1,8 +1,8 @@
 export async function getUserWithTeams(id) {
     const token = localStorage.getItem('token');
 
-    const resp = await fetch(`http://localhost:8080/auth/userWithTeams/${id}`, {
-    //const resp = await fetch(`https://teamdex-back.onrender.com/auth/${id}`, {
+    //const resp = await fetch(`http://localhost:8080/auth/userWithTeams/${id}`, {
+    const resp = await fetch(`https://teamdex-back.onrender.com/auth/userWithTeams/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -55,7 +55,7 @@ const RegisterForm = () => {
 
     return (
         <div className="row">
-            <div className="col-12 flex flex-col items-center justify-center">
+            <div className="col-md-12 flex flex-col items-center justify-center">
                 <div className="mt-20">
                     <form className={formClass} onSubmit={handleRegister}>
                         <h1 className="text-3xl font-bold mb-4">Register</h1>

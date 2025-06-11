@@ -1,7 +1,7 @@
 import Move from "./Move";
-import fisico from "../../../../assets/fisico.png";
-import especial from "../../../../assets/especial.png";
-import estado from "../../../../assets/estado.png";
+import fisico from "../../../../assets/fisico.webp";
+import especial from "../../../../assets/especial.webp";
+import estado from "../../../../assets/estado.webp";
 
 const MoveList = ({setTeam, actualPokemon, filteredMoves, buscando, moveIndex, setSearch, setMoveIndex, setMoveFilter}) => {
 
