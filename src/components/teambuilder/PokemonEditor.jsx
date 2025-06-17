@@ -98,6 +98,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
 
 
     useEffect(() => {
+        setRawName(team[actualPokemon].name.replace(/\s+/g, '-').toLowerCase() || "");
         setName(team[actualPokemon].name.replace(/\s+/g, '-').toLowerCase() || "");
         setItem(team[actualPokemon].item.replace(/\s+/g, '-').toLowerCase() || "");
         setAbilitie(team[actualPokemon].abilitie.replace(/\s+/g, '-').toLowerCase() || "");
