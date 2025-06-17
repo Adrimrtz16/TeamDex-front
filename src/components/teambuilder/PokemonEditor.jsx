@@ -37,7 +37,7 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
     const { abilities = [], buscandoAbilities } = useAbilities(pokemon.id);
     const { moves = [], buscandoMoves } = useMoves(pokemon.id);
 
-    const [rawName, setRawName] = useState('')
+    const [rawName, setRawName] = useState(team[actualPokemon].name || "")
     const debouncedName = useDebouncedValue(rawName, 200)
     useEffect(() => {
         setNameFilter(debouncedName)
@@ -383,7 +383,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                 <div className="col-md-3">
                     <div className="flex justify-center items-center gap-2">
                         <label className="ml-[2px]" htmlFor="name">Name: </label>
-                        <input type="text" id="name" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="name" value={name} onClick={() => setSearch(1)} onChange={e => setRawName(e.target.value)}/>
+                        <input type="text" id="name" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="name" value={rawName} onClick={() => setSearch(1)} onChange={e => setRawName(e.target.value)}/>
                     </div>
                     <div className="flex justify-center items-center gap-2 mt-2">
                         <label className="ml-3" htmlFor="item">Item: </label>
