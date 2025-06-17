@@ -28,6 +28,9 @@ const PokemonEditor = ({id, setNameFilter, nameFilter , pokemons , buscando , po
                                                                                     .replace(/^thundurus$/, "thundurus-incarnate")
                                                                                     .replace(/^enamorus$/, "enamorus-incarnate")
                                                                                     .replace(/^urshifu$/, "urshifu-single-strike") 
+                                                                                    .replace(/^ogerpon-wellspring$/, "ogerpon-wellspring-mask")
+                                                                                    .replace(/^ogerpon-hearthflame$/, "ogerpon-hearthflame-mask")
+                                                                                    .replace(/^ogerpon-cornerstone$/, "ogerpon-cornerstone-mask")
                                                                                 );
         
     const { items = [], buscandoItems } = useItems(); 
@@ -380,7 +383,7 @@ capitalizedMoves.split('\n').map(m => m +  '  \n').join('')
                 <div className="col-md-3">
                     <div className="flex justify-center items-center gap-2">
                         <label className="ml-[2px]" htmlFor="name">Name: </label>
-                        <input type="text" id="name" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="name" value={rawName} onClick={() => setSearch(1)} onChange={e => setRawName(e.target.value)}/>
+                        <input type="text" id="name" className={`w-auto p-2 rounded-lg border-2 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-300'}`} placeholder="name" value={name} onClick={() => setSearch(1)} onChange={e => setRawName(e.target.value)}/>
                     </div>
                     <div className="flex justify-center items-center gap-2 mt-2">
                         <label className="ml-3" htmlFor="item">Item: </label>

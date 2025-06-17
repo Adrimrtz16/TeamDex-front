@@ -10,6 +10,10 @@ export function getPokemonSprite(name) {
         .replace(/^thundurus$/, "thundurus-incarnate")
         .replace(/^enamorus$/, "enamorus-incarnate")
         .replace(/^urshifu$/, "urshifu-single-strike") 
+        .replace(/^ogerpon-wellspring$/, "ogerpon-wellspring-mask")
+        .replace(/^ogerpon-hearthflame$/, "ogerpon-hearthflame-mask")
+        .replace(/^ogerpon-cornerstone$/, "ogerpon-cornerstone-mask")
+
 
     return fetch(`https://pokeapi.co/api/v2/pokemon/${formattedName}`)
         .then(response => {
